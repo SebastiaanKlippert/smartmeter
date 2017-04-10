@@ -51,11 +51,9 @@ func Start() error {
 func processData(data *MeterData) error {
 
 	// Parse data first
-	st := time.Now()
 	if err := data.Parse(); err != nil {
 		return err
 	}
-	fmt.Printf("Parsed in %s\n", time.Since(st))
 
 	//TODO store somewhere
 
