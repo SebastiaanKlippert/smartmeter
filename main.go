@@ -1,13 +1,34 @@
 package main
 
 import (
+	"bytes"
 	"errors"
+	"flag"
 	"fmt"
 	"log"
+	"net/http"
+	"os"
 	"time"
 )
 
+var (
+	apiHost = flag.String("api", "", "location of smartmeter-api")
+	apiUrl  = ""
+)
+
 func main() {
+
+	flag.Parse()
+
+	if *apiHost == "" {
+		*apiHost = os.Getenv("API_HOST")
+	}
+	if *apiHost == "" {
+		log.Fatal("api flag or API_HOST not set")
+	}
+	log.Printf("Using API host %s", *apiHost)
+
+	apiUrl = fmt.Sprintf("http://%s/meterdata", *apiHost)
 
 	for {
 
@@ -55,13 +76,22 @@ func processData(data *MeterData) error {
 		return err
 	}
 
-	//TODO store somewhere
-
+	// Create JSON output
 	jsonData, err := data.Json()
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(jsonData))
+
+	// Send JSON to our API
+	resp, err := http.Post(apiUrl, "application/json", bytes.NewReader(jsonData))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("Received statuscode %d from API", resp.StatusCode)
+	}
 
 	return nil
 }
