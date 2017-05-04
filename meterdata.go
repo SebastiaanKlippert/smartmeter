@@ -65,9 +65,9 @@ func (md *MeterData) Parse() error {
 		case "1-0:1.8.1":
 			md.setVal(&md.PlusEnergyTar1, b, kWhVal)
 		case "1-0:1.8.2":
-			md.setVal(&md.MinEnergyTar1, b, kWhVal)
-		case "1-0:2.8.1":
 			md.setVal(&md.PlusEnergyTar2, b, kWhVal)
+		case "1-0:2.8.1":
+			md.setVal(&md.MinEnergyTar1, b, kWhVal)
 		case "1-0:2.8.2":
 			md.setVal(&md.MinEnergyTar2, b, kWhVal)
 		case "0-0:96.14":
