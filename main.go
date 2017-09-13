@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 	"time"
 )
 
@@ -17,6 +18,8 @@ var (
 )
 
 func main() {
+
+	log.Printf("Go version %s running on %s %s", runtime.Version(), runtime.GOOS, runtime.GOARCH)
 
 	flag.Parse()
 

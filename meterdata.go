@@ -84,7 +84,7 @@ func (md *MeterData) Parse() error {
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		return fmt.Errorf("Error scanning data: %s", err)
+		return fmt.Errorf("error scanning data: %s", err)
 	}
 
 	md.parsed = true
